@@ -1,0 +1,25 @@
+import org.gradle.api.publish.maven.MavenPublication
+
+publishing {
+    repositories {
+        mavenLocal()
+        // Add more / your repositories here.
+    }
+
+    publications {
+        api(MavenPublication) {
+            artifactId = "${project.ext.artifact}-api"
+            artifact apiJar
+            artifact apiSourcesJar {
+                classifier "sources"
+            }
+        }
+        publish(MavenPublication) {
+            artifactId = project.ext.artifact
+            artifact jar
+            artifact sourcesJar {
+                classifier "sources"
+            }
+        }
+    }
+}

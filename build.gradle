@@ -1,0 +1,77 @@
+import org.gradle.api.JavaVersion
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+/**
+ * Change this to your group in reverse domain notation.
+ */
+group 'de.fearnixx.jeak'
+
+// The current project version
+def projectVersion = '1.0.0'
+
+// We want to explicitly use Java 11 otherwise the Gradle VM language version would be used.
+sourceCompatibility = JavaVersion.VERSION_11
+
+// For later use below.
+project.ext {
+    artifact = 'antihopping'
+}
+
+// Use Mavens snapshot notation convention when we don't want to build a release
+if (!project.hasProperty("release")) {
+    projectVersion += '-SNAPSHOT'
+}
+version projectVersion
+
+repositories {
+    mavenLocal()
+    maven {
+        url uri('https://nexus.fearnixx.de/repository/maven-public')
+    }
+}
+
+/**
+ * We want to include the API resources and sources in the main source set.
+ * This allows admins to just install one artifact rather than two.
+ */
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/api/java']
+        }
+        resources {
+            srcDirs = ['src/main/resources', 'src/api/resources']
+        }
+    }
+    api {
+        java {
+            srcDirs = ['src/api/java']
+        }
+        resources {
+            srcDirs = ['src/api/resources']
+        }
+    }
+}
+
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'de.fearnixx', name: 'jeakbot-api', version: '1.0.0'
+
+    // Confort is not fully released yet, this will be updated once it is.
+    compile group: 'de.mlessmann', name: 'confort-api', version: '1.0.0-rc.1'
+}
+
+/**
+ * At the moment, this gradle version is tested.
+ * It's advisable to keep this in sync with the gradle version the framework uses.
+ *
+ * The distribution type is set so that IDEA can provide improved code assistance.
+ */
+wrapper {
+    gradleVersion '5.4.1'
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+apply from: './artifacts.gradle'
+apply from: './publication.gradle'
