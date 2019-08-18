@@ -15,7 +15,7 @@ sourceCompatibility = JavaVersion.VERSION_11
 
 // For later use below.
 project.ext {
-    artifact = 'antihopping'
+    artifact = 'someplugin'
 }
 
 // Use Mavens snapshot notation convention when we don't want to build a release
