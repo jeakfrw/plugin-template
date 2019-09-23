@@ -1,3 +1,8 @@
+IMPORTANT NOTE:
+This license __only__ applies to the Jeak plugin template code and can be completely replaced by anyone using the plugin template to scaffold their own plugin. This license no longer applies to the files after they have been changed with the intend to develop a new plugin _unless_ this notice is explicitly removed from the license file.  
+Users of the plugin template are encouraged to check whether or not the MIT license is suitable for their plugin project and can explicitly choose not to keep it by replacing it with a different license file.
+
+
 MIT License
 
 Copyright (c) 2019 Jeak Framework
