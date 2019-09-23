@@ -24,5 +24,6 @@ git remote rename origin template
 git remote add origin <your-repository-uri>
 
 # Pull any updates to the template (from the templates 'master' branch to the currently checked out branch)
+# We recommend using an interactive merge tool. And: remember not accept changes to files like this readMe ^^ - this is yours now.
 git pull template master
 ```
