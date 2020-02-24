@@ -56,10 +56,10 @@ sourceSets {
 
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    compile group: 'de.fearnixx', name: 'jeakbot-api', version: '1.0.0'
+    compile group: 'de.fearnixx', name: 'jeakbot-api', version: '1.1.0-rc.1'
 
     // Confort is not fully released yet, this will be updated once it is.
-    compile group: 'de.mlessmann', name: 'confort-api', version: '1.0.0-rc.1'
+    compile group: 'de.mlessmann', name: 'confort-api', version: '1.1.0-rc.2'
 }
 
 /**
@@ -69,7 +69,7 @@ dependencies {
  * The distribution type is set so that IDEA can provide improved code assistance.
  */
 wrapper {
-    gradleVersion '5.4.1'
+    gradleVersion '5.4.2'
     distributionType = Wrapper.DistributionType.ALL
 }
 
