@@ -20,9 +20,8 @@ project.ext {
 
 // Use Mavens snapshot notation convention when we don't want to build a release
 if (!project.hasProperty("release") || project.release != 'true') {
-    projectVersion += '-SNAPSHOT'
+    version = project.version  + '-SNAPSHOT'
 }
-version projectVersion
 
 repositories {
     mavenLocal()
