@@ -25,6 +25,8 @@ hs_err_pid*
 # # END GITHUB GITIGNORE TEMPLATE (Java) # #
 # Gradle build output
 build/
+.gradle/
+
 
 # IntelliJ module & project configuration files
 .idea/
