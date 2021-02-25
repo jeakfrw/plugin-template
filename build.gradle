@@ -12,14 +12,14 @@ version '1.0.0'
 // We want to explicitly use Java 11 otherwise the Gradle VM language version would be used.
 sourceCompatibility = JavaVersion.VERSION_11
 
-// For later use below.
 project.ext {
+    // Explicitly set the artifact name so gradle doesn't use its computed value.
     artifact = 'someplugin'
 }
 
 // Use Mavens snapshot notation convention when we don't want to build a release
 if (!project.hasProperty("release") || project.release != 'true') {
-    version = project.version  + '-SNAPSHOT'
+    version "${project.version}-SNAPSHOT"
 }
 
 repositories {
@@ -58,13 +58,42 @@ dependencies {
 }
 
 /**
+ * Some things should not be maintained in both the source code and the build scripts.
+ * Such things are the version numbers of both the plugin and the Jeak version used to compile it.
+ * That's why we replace tokens in the form of "@VERSION@" with what the build system already knows.
+ */
+import org.apache.tools.ant.filters.ReplaceTokens
+task processSourceReplacements(type: Sync) {
+    from sourceSets.main.java
+
+    def jeakDependencyVersion = project.configurations.getByName('compile')
+            .resolvedConfiguration
+            .getFirstLevelModuleDependencies()
+            .find { it.moduleName == 'jeakbot-api'}
+            .moduleVersion
+
+    inputs.property "version", version
+    inputs.property "jeakVersion", jeakDependencyVersion
+    filter(ReplaceTokens, tokens: [
+            VERSION: version,
+            JEAK_VERSION: jeakDependencyVersion,
+    ])
+    into "$buildDir/src"
+}
+
+compileJava {
+    source = processSourceReplacements.outputs
+    options.compilerArgs << "-Xlint:deprecation"
+}
+
+/**
  * At the moment, this gradle version is tested.
  * It's advisable to keep this in sync with the gradle version the framework uses.
  *
- * The distribution type is set so that IDEA can provide improved code assistance.
+ * The distribution type is set so that IDEA can provide improved (limited) code assistance.
  */
 wrapper {
-    gradleVersion '5.4.2'
+    gradleVersion '6.7.1'
     distributionType = Wrapper.DistributionType.ALL
 }
 
