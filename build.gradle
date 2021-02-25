@@ -8,6 +8,10 @@ group 'de.fearnixx.jeak'
 
 // The current project version - pre-defined for analysis tools that only crawl this file
 version '1.0.0'
+// Use Mavens snapshot notation convention when we don't want to build a release
+if (!project.hasProperty("release") || project.release != 'true') {
+    version (project.version + '-SNAPSHOT')
+}
 
 // We want to explicitly use Java 11 otherwise the Gradle VM language version would be used.
 sourceCompatibility = JavaVersion.VERSION_11
@@ -15,11 +19,6 @@ sourceCompatibility = JavaVersion.VERSION_11
 project.ext {
     // Explicitly set the artifact name so gradle doesn't use its computed value.
     artifact = 'someplugin'
-}
-
-// Use Mavens snapshot notation convention when we don't want to build a release
-if (!project.hasProperty("release") || project.release != 'true') {
-    version "${project.version}-SNAPSHOT"
 }
 
 repositories {
